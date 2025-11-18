@@ -1,135 +1,121 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 
-const frames = [
+const timelineData = [
   {
-    key: "structural",
-    label: "Structural",
-    icon: "🏛️",
-    description:
-      "Focuses on rules, roles, and organizational structure. Concerns include policy clarity, costs of security, and alignment with UF’s mission.",
+    year: "2017 (Aug)",
+    event: "Charlottesville rally prompts national debate on free speech and hate groups."
   },
   {
-    key: "political",
-    label: "Political",
-    icon: "🎯",
-    description:
-      "Highlights power, conflict, and coalitions. Key issues include legal threats, campus stakeholders, and political actors like Governor Rick Scott.",
+    year: "2017 (Sept)",
+    event: "Richard Spencer requests to speak at UF; initial denial leads to legal scrutiny."
   },
   {
-    key: "human",
-    label: "Human Resources",
-    icon: "🧑‍🤝‍🧑",
-    description:
-      "Examines people, well-being, and relationships. Issues involve student trauma, mental health resources, and staff support.",
+    year: "2017 (Oct)",
+    event: "UF approves event to avoid First Amendment lawsuit, invests ~$500K in security."
   },
   {
-    key: "symbolic",
-    label: "Symbolic",
-    icon: "🔥",
-    description:
-      "Focuses on meaning, identity, and culture. What does this event signal about UF’s values, traditions, and its moral narrative?",
-  },
+    year: "2017+",
+    event: "UF organizes counter-programming: teach-ins, healing spaces, curricular responses."
+  }
 ];
 
-const perspectives = [
-  {
-    key: "president",
-    label: "UF President",
-    view:
-      "Must uphold legal standards while protecting community safety. Concerned with lawsuits, mission integrity, and campus stability.",
-  },
-  {
-    key: "student",
-    label: "Black Student Activist",
-    view:
-      "Views Spencer’s presence as a threat to safety and dignity. Seeks institutional protection and affirmation of belonging.",
-  },
-  {
-    key: "lawyer",
-    label: "1st Amendment Lawyer",
-    view:
-      "Prioritizes constitutional rights. Believes UF must allow speech unless direct incitement to violence is present.",
-  },
-  {
-    key: "business",
-    label: "Local Business Owner",
-    view:
-      "Worried about public disorder affecting operations. Prioritizes stability, security, and image of the college town.",
-  },
-];
+const frameData = {
+  Structural: [
+    "Review of speaker approval protocols and decision authority.",
+    "Security and legal cost burden: over $500,000 spent.",
+    "Mission alignment: does this support or undermine DEI goals?"
+  ],
+  Human: [
+    "Heightened trauma risk for marginalized students and staff.",
+    "Counseling center strain and need for healing spaces.",
+    "Calls for trust rebuilding between leadership and campus groups."
+  ],
+  Political: [
+    "Tension between state politics (e.g., Governor's emergency order) and institutional autonomy.",
+    "Student, faculty, and donor coalitions take opposing stances.",
+    "Media spotlight and reputational implications."
+  ],
+  Symbolic: [
+    "Contradiction between UF's values and the symbolism of platforming hate speech.",
+    "Campus rituals and DEI messaging clash with event optics.",
+    "Narrative of leadership: defender of rights or enabler of harm?"
+  ]
+};
 
-export default function CaseHandout() {
-  const [activeFrame, setActiveFrame] = useState("structural");
-  const [activePerspective, setActivePerspective] = useState("president");
+const perspectives = {
+  Student: "As a student of color, this decision feels threatening and alienating. I want my safety prioritized over free speech absolutism.",
+  Administrator: "We had to weigh legal exposure and constitutional rights. Our mission to educate compels us to model engagement—even when uncomfortable.",
+  Faculty: "We must teach students to engage critically, not hide them from ugly realities. But we also need institutional support for inclusive teaching.",
+  Community: "As a local business owner and parent, I’m concerned about both violence and reputation. UF should stand against hate—but safely."
+};
 
-  const frame = frames.find((f) => f.key === activeFrame);
-  const perspective = perspectives.find((p) => p.key === activePerspective);
+export default function HandoutInteractive() {
+  const [selectedFrame, setSelectedFrame] = useState("Structural");
+  const [selectedPerspective, setSelectedPerspective] = useState("Student");
+
+  const downloadPDF = () => {
+    window.print();
+  };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-8">
-      <header className="text-center">
-        <h1 className="text-3xl font-bold">Richard Spencer @ UF – Case Analysis</h1>
-        <p className="text-sm text-gray-600">
-          Explore this free speech controversy through different organizational frames and perspectives.
-        </p>
-        <Button className="mt-4" onClick={() => window.print()}>
-          📄 Download PDF
-        </Button>
-      </header>
+    <div className="max-w-4xl mx-auto px-4 py-10 space-y-10 text-slate-800">
+      <h1 className="text-2xl font-bold mb-4">Team Case Study: Free Speech and White Nationalism at UF</h1>
 
-      <section className="bg-white rounded-xl border p-5 shadow">
-        <h2 className="text-xl font-semibold mb-4">📆 Event Timeline</h2>
-        <ul className="space-y-2 text-sm text-gray-700">
-          <li>🔹 August 2017 – Charlottesville “Unite the Right” Rally</li>
-          <li>🔹 Sep 2017 – Spencer requests to speak at UF, initially denied</li>
-          <li>🔹 October 2017 – UF reverses decision, citing legal concerns</li>
-          <li>🔹 October 19, 2017 – Spencer speaks on campus with heavy security</li>
-          <li>🔹 Post-event – UF criticized and praised for its handling</li>
+      {/* Timeline */}
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold">Timeline of Events</h2>
+        <ul className="space-y-2">
+          {timelineData.map((item, i) => (
+            <li key={i} className="border-l-4 border-slate-400 pl-4">
+              <span className="font-bold">{item.year}:</span> {item.event}
+            </li>
+          ))}
         </ul>
       </section>
 
-      <section className="bg-white rounded-xl border p-5 shadow">
-        <h2 className="text-xl font-semibold mb-4">🎯 Bolman & Deal Frame Explorer</h2>
-        <div className="flex gap-2 mb-4">
-          {frames.map((f) => (
-            <Button
-              key={f.key}
-              variant={f.key === activeFrame ? "default" : "outline"}
-              onClick={() => setActiveFrame(f.key)}
-            >
-              {f.icon} {f.label}
+      {/* Frame Explorer */}
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Frame Explorer Tool</h2>
+        <div className="flex gap-2 mb-3">
+          {Object.keys(frameData).map((frame) => (
+            <Button key={frame} onClick={() => setSelectedFrame(frame)} variant={selectedFrame === frame ? "default" : "outline"}>
+              {frame}
             </Button>
           ))}
         </div>
-        <Card>
-          <CardContent className="p-4 text-gray-800">
-            <h3 className="font-semibold text-lg mb-2">{frame.label} Frame</h3>
-            <p>{frame.description}</p>
-          </CardContent>
-        </Card>
+        <ul className="list-disc pl-5 text-slate-700">
+          {frameData[selectedFrame].map((point, i) => (
+            <li key={i}>{point}</li>
+          ))}
+        </ul>
       </section>
 
-      <section className="bg-white rounded-xl border p-5 shadow">
-        <h2 className="text-xl font-semibold mb-4">🧠 Perspective Switcher</h2>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {perspectives.map((p) => (
-            <Button
-              key={p.key}
-              variant={p.key === activePerspective ? "default" : "outline"}
-              onClick={() => setActivePerspective(p.key)}
-            >
-              {p.label}
+      {/* Perspective Switcher */}
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Perspective Switcher</h2>
+        <div className="flex flex-wrap gap-2 mb-3">
+          {Object.keys(perspectives).map((key) => (
+            <Button key={key} onClick={() => setSelectedPerspective(key)} variant={selectedPerspective === key ? "default" : "outline"}>
+              {key}
             </Button>
           ))}
         </div>
-        <Card>
-          <CardContent className="p-4 text-gray-800">
-            <h3 className="font-semibold text-lg mb-2">{perspective.label}'s View</h3>
-            <p>{perspective.view}</p>
-          </CardContent>
-        </Card>
+        <p className="bg-slate-100 p-4 rounded-xl border border-slate-300 italic">{perspectives[selectedPerspective]}</p>
+      </section>
+
+      {/* Resolution Summary */}
+      <section>
+        <h2 className="text-xl font-semibold mb-2">Proposed Resolution Summary</h2>
+        <ul className="list-disc pl-5 space-y-1 text-slate-700">
+          <li><strong>Legal Compliance:</strong> Allow the event to comply with First Amendment standards and reduce legal risk.</li>
+          <li><strong>Educational Framing:</strong> Host teach-ins, integrate content into coursework, and build media literacy around hate speech.</li>
+          <li><strong>Community Support:</strong> Provide healing spaces, expand counseling access, and protect student wellbeing through dialogue and care.</li>
+        </ul>
+      </section>
+
+      <section>
+        <Button onClick={downloadPDF} className="mt-6">Download PDF</Button>
       </section>
     </div>
   );
