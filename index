@@ -1,122 +1,163 @@
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Speech and White Nationalism at UF</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 2rem;
+      background: #f8fafc;
+      color: #1e293b;
+    }
+    h1, h2 {
+      color: #0f172a;
+    }
+    .timeline li {
+      border-left: 4px solid #94a3b8;
+      padding-left: 1rem;
+      margin-bottom: 1rem;
+    }
+    .buttons button {
+      margin: 0.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #cbd5e1;
+      background: white;
+      cursor: pointer;
+    }
+    .buttons button.active {
+      background: #0f172a;
+      color: white;
+    }
+    .frame-points, .perspective {
+      background: #f1f5f9;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid #cbd5e1;
+    }
+    .download-btn {
+      margin-top: 2rem;
+      padding: 0.75rem 1.5rem;
+      background: #1e293b;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
 
-const timelineData = [
-  {
-    year: "2017 (Aug)",
-    event: "Charlottesville rally prompts national debate on free speech and hate groups."
-  },
-  {
-    year: "2017 (Sept)",
-    event: "Richard Spencer requests to speak at UF; initial denial leads to legal scrutiny."
-  },
-  {
-    year: "2017 (Oct)",
-    event: "UF approves event to avoid First Amendment lawsuit, invests ~$500K in security."
-  },
-  {
-    year: "2017+",
-    event: "UF organizes counter-programming: teach-ins, healing spaces, curricular responses."
-  }
-];
+  <h1>Team Case Study: Free Speech and White Nationalism at UF</h1>
 
-const frameData = {
-  Structural: [
-    "Review of speaker approval protocols and decision authority.",
-    "Security and legal cost burden: over $500,000 spent.",
-    "Mission alignment: does this support or undermine DEI goals?"
-  ],
-  Human: [
-    "Heightened trauma risk for marginalized students and staff.",
-    "Counseling center strain and need for healing spaces.",
-    "Calls for trust rebuilding between leadership and campus groups."
-  ],
-  Political: [
-    "Tension between state politics (e.g., Governor's emergency order) and institutional autonomy.",
-    "Student, faculty, and donor coalitions take opposing stances.",
-    "Media spotlight and reputational implications."
-  ],
-  Symbolic: [
-    "Contradiction between UF's values and the symbolism of platforming hate speech.",
-    "Campus rituals and DEI messaging clash with event optics.",
-    "Narrative of leadership: defender of rights or enabler of harm?"
-  ]
-};
+  <section>
+    <h2>Timeline of Events</h2>
+    <ul class="timeline">
+      <li><strong>2017:</strong> Charlottesville rally prompts UF to reconsider speaker policies.</li>
+      <li><strong>2017:</strong> Richard Spencer requests to speak at UF; initial denial leads to legal pressure.</li>
+      <li><strong>Oct 2017:</strong> UF approves the event to avoid legal liability, spending ~$500K on security.</li>
+      <li><strong>2017+:</strong> Campus-wide teach-ins, forums, and healing spaces launched.</li>
+    </ul>
+  </section>
 
-const perspectives = {
-  Student: "As a student of color, this decision feels threatening and alienating. I want my safety prioritized over free speech absolutism.",
-  Administrator: "We had to weigh legal exposure and constitutional rights. Our mission to educate compels us to model engagement—even when uncomfortable.",
-  Faculty: "We must teach students to engage critically, not hide them from ugly realities. But we also need institutional support for inclusive teaching.",
-  Community: "As a local business owner and parent, I’m concerned about both violence and reputation. UF should stand against hate—but safely."
-};
+  <section>
+    <h2>Frame Explorer Tool</h2>
+    <div class="buttons" id="frame-buttons"></div>
+    <div class="frame-points" id="frame-content"></div>
+  </section>
 
-export default function HandoutInteractive() {
-  const [selectedFrame, setSelectedFrame] = useState("Structural");
-  const [selectedPerspective, setSelectedPerspective] = useState("Student");
+  <section>
+    <h2>Perspective Switcher</h2>
+    <div class="buttons" id="perspective-buttons"></div>
+    <div class="perspective" id="perspective-content"></div>
+  </section>
 
-  const downloadPDF = () => {
-    window.print();
-  };
+  <button class="download-btn" onclick="window.print()">Download PDF</button>
 
-  return (
-    <div className="max-w-4xl mx-auto px-4 py-10 space-y-10 text-slate-800">
-      <h1 className="text-2xl font-bold mb-4">Team Case Study: Free Speech and White Nationalism at UF</h1>
+  <script>
+    const frameData = {
+      Structural: [
+        "What policies are in place?",
+        "Who approves speakers?",
+        "Cost implications for HR, facilities, etc."
+      ],
+      Human: [
+        "Mental health resources for impacted students/staff.",
+        "Rebuilding community trust."
+      ],
+      Political: [
+        "External political pressure (e.g., Gov. Rick Scott).",
+        "Stakeholder conflict: free speech vs. safety."
+      ],
+      Symbolic: [
+        "Institutional values—what message does this send?",
+        "Impact on campus culture and identity."
+      ]
+    };
 
-      {/* Timeline */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-semibold">Timeline of Events</h2>
-        <ul className="space-y-2">
-          {timelineData.map((item, i) => (
-            <li key={i} className="border-l-4 border-slate-400 pl-4">
-              <span className="font-bold">{item.year}:</span> {item.event}
-            </li>
-          ))}
-        </ul>
-      </section>
+    const perspectives = {
+      Student: "As a student of color, this decision feels threatening and alienating. I want my safety prioritized over free speech absolutism.",
+      Administrator: "We had to weigh legal exposure and constitutional rights. Our mission to educate compels us to model engagement—even when uncomfortable.",
+      Faculty: "We must teach students to engage critically, not hide them from ugly realities. But we also need institutional support for inclusive teaching.",
+      Community: "As a local business owner and parent, I’m concerned about both violence and reputation. UF should stand against hate—but safely."
+    };
 
-      {/* Frame Explorer */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Frame Explorer Tool</h2>
-        <div className="flex gap-2 mb-3">
-          {Object.keys(frameData).map((frame) => (
-            <Button key={frame} onClick={() => setSelectedFrame(frame)} variant={selectedFrame === frame ? "default" : "outline"}>
-              {frame}
-            </Button>
-          ))}
-        </div>
-        <ul className="list-disc pl-5 text-slate-700">
-          {frameData[selectedFrame].map((point, i) => (
-            <li key={i}>{point}</li>
-          ))}
-        </ul>
-      </section>
+    let selectedFrame = "Structural";
+    let selectedPerspective = "Student";
 
-      {/* Perspective Switcher */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Perspective Switcher</h2>
-        <div className="flex flex-wrap gap-2 mb-3">
-          {Object.keys(perspectives).map((key) => (
-            <Button key={key} onClick={() => setSelectedPerspective(key)} variant={selectedPerspective === key ? "default" : "outline"}>
-              {key}
-            </Button>
-          ))}
-        </div>
-        <p className="bg-slate-100 p-4 rounded-xl border border-slate-300 italic">{perspectives[selectedPerspective]}</p>
-      </section>
+    function renderFrameButtons() {
+      const container = document.getElementById("frame-buttons");
+      container.innerHTML = "";
+      Object.keys(frameData).forEach((frame) => {
+        const btn = document.createElement("button");
+        btn.innerText = frame;
+        btn.className = frame === selectedFrame ? "active" : "";
+        btn.onclick = () => {
+          selectedFrame = frame;
+          renderFrameButtons();
+          renderFrameContent();
+        };
+        container.appendChild(btn);
+      });
+    }
 
-      {/* Resolution Summary */}
-      <section>
-        <h2 className="text-xl font-semibold mb-2">Proposed Resolution Summary</h2>
-        <ul className="list-disc pl-5 space-y-1 text-slate-700">
-          <li><strong>Legal Compliance:</strong> Allow the event to comply with First Amendment standards and reduce legal risk.</li>
-          <li><strong>Educational Framing:</strong> Host teach-ins, integrate content into coursework, and build media literacy around hate speech.</li>
-          <li><strong>Community Support:</strong> Provide healing spaces, expand counseling access, and protect student wellbeing through dialogue and care.</li>
-        </ul>
-      </section>
+    function renderFrameContent() {
+      const container = document.getElementById("frame-content");
+      container.innerHTML = `<ul>${frameData[selectedFrame]
+        .map((point) => `<li>${point}</li>`)
+        .join("")}</ul>`;
+    }
 
-      <section>
-        <Button onClick={downloadPDF} className="mt-6">Download PDF</Button>
-      </section>
-    </div>
-  );
-}
+    function renderPerspectiveButtons() {
+      const container = document.getElementById("perspective-buttons");
+      container.innerHTML = "";
+      Object.keys(perspectives).forEach((key) => {
+        const btn = document.createElement("button");
+        btn.innerText = key;
+        btn.className = key === selectedPerspective ? "active" : "";
+        btn.onclick = () => {
+          selectedPerspective = key;
+          renderPerspectiveButtons();
+          renderPerspectiveContent();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderPerspectiveContent() {
+      const container = document.getElementById("perspective-content");
+      container.innerText = perspectives[selectedPerspective];
+    }
+
+    renderFrameButtons();
+    renderFrameContent();
+    renderPerspectiveButtons();
+    renderPerspectiveContent();
+  </script>
+
+</body>
+</html>
