@@ -1,0 +1,136 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+
+const frames = [
+  {
+    key: "structural",
+    label: "Structural",
+    icon: "🏛️",
+    description:
+      "Focuses on rules, roles, and organizational structure. Concerns include policy clarity, costs of security, and alignment with UF’s mission.",
+  },
+  {
+    key: "political",
+    label: "Political",
+    icon: "🎯",
+    description:
+      "Highlights power, conflict, and coalitions. Key issues include legal threats, campus stakeholders, and political actors like Governor Rick Scott.",
+  },
+  {
+    key: "human",
+    label: "Human Resources",
+    icon: "🧑‍🤝‍🧑",
+    description:
+      "Examines people, well-being, and relationships. Issues involve student trauma, mental health resources, and staff support.",
+  },
+  {
+    key: "symbolic",
+    label: "Symbolic",
+    icon: "🔥",
+    description:
+      "Focuses on meaning, identity, and culture. What does this event signal about UF’s values, traditions, and its moral narrative?",
+  },
+];
+
+const perspectives = [
+  {
+    key: "president",
+    label: "UF President",
+    view:
+      "Must uphold legal standards while protecting community safety. Concerned with lawsuits, mission integrity, and campus stability.",
+  },
+  {
+    key: "student",
+    label: "Black Student Activist",
+    view:
+      "Views Spencer’s presence as a threat to safety and dignity. Seeks institutional protection and affirmation of belonging.",
+  },
+  {
+    key: "lawyer",
+    label: "1st Amendment Lawyer",
+    view:
+      "Prioritizes constitutional rights. Believes UF must allow speech unless direct incitement to violence is present.",
+  },
+  {
+    key: "business",
+    label: "Local Business Owner",
+    view:
+      "Worried about public disorder affecting operations. Prioritizes stability, security, and image of the college town.",
+  },
+];
+
+export default function CaseHandout() {
+  const [activeFrame, setActiveFrame] = useState("structural");
+  const [activePerspective, setActivePerspective] = useState("president");
+
+  const frame = frames.find((f) => f.key === activeFrame);
+  const perspective = perspectives.find((p) => p.key === activePerspective);
+
+  return (
+    <div className="max-w-4xl mx-auto p-6 space-y-8">
+      <header className="text-center">
+        <h1 className="text-3xl font-bold">Richard Spencer @ UF – Case Analysis</h1>
+        <p className="text-sm text-gray-600">
+          Explore this free speech controversy through different organizational frames and perspectives.
+        </p>
+        <Button className="mt-4" onClick={() => window.print()}>
+          📄 Download PDF
+        </Button>
+      </header>
+
+      <section className="bg-white rounded-xl border p-5 shadow">
+        <h2 className="text-xl font-semibold mb-4">📆 Event Timeline</h2>
+        <ul className="space-y-2 text-sm text-gray-700">
+          <li>🔹 August 2017 – Charlottesville “Unite the Right” Rally</li>
+          <li>🔹 Sep 2017 – Spencer requests to speak at UF, initially denied</li>
+          <li>🔹 October 2017 – UF reverses decision, citing legal concerns</li>
+          <li>🔹 October 19, 2017 – Spencer speaks on campus with heavy security</li>
+          <li>🔹 Post-event – UF criticized and praised for its handling</li>
+        </ul>
+      </section>
+
+      <section className="bg-white rounded-xl border p-5 shadow">
+        <h2 className="text-xl font-semibold mb-4">🎯 Bolman & Deal Frame Explorer</h2>
+        <div className="flex gap-2 mb-4">
+          {frames.map((f) => (
+            <Button
+              key={f.key}
+              variant={f.key === activeFrame ? "default" : "outline"}
+              onClick={() => setActiveFrame(f.key)}
+            >
+              {f.icon} {f.label}
+            </Button>
+          ))}
+        </div>
+        <Card>
+          <CardContent className="p-4 text-gray-800">
+            <h3 className="font-semibold text-lg mb-2">{frame.label} Frame</h3>
+            <p>{frame.description}</p>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="bg-white rounded-xl border p-5 shadow">
+        <h2 className="text-xl font-semibold mb-4">🧠 Perspective Switcher</h2>
+        <div className="flex flex-wrap gap-2 mb-4">
+          {perspectives.map((p) => (
+            <Button
+              key={p.key}
+              variant={p.key === activePerspective ? "default" : "outline"}
+              onClick={() => setActivePerspective(p.key)}
+            >
+              {p.label}
+            </Button>
+          ))}
+        </div>
+        <Card>
+          <CardContent className="p-4 text-gray-800">
+            <h3 className="font-semibold text-lg mb-2">{perspective.label}'s View</h3>
+            <p>{perspective.view}</p>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
+  );
+}
